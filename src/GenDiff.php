@@ -2,14 +2,19 @@
 
 namespace Hexlet\Code;
 
-use function Funct\Collection\sortBy;
-
 function getString($key, $value, $sign = " "): string
 {
     if (is_bool($value)) {
         $value = json_encode($value);
     }
     return "  " . $sign . " " . $key . ": " . $value;
+}
+
+function sortByKeys($keys)
+{
+    $copy = $keys;
+    sort($copy);
+    return $copy;
 }
 
 function genDiff(string $filePath1, string $filePath2): string
@@ -21,9 +26,7 @@ function genDiff(string $filePath1, string $filePath2): string
 
     $keys = array_keys(array_merge($data1, $data2));
 
-    $sortedKeys = sortBy($keys, function ($key) {
-        return $key;
-    });
+    $sortedKeys = sortByKeys($keys);
 
     $result = [];
     $result[] = "{";
