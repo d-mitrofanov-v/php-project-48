@@ -2,29 +2,28 @@
 
 namespace Hexlet\Code;
 
-function getString($key, $value, $sign = " "): string
+function formatString(string $key, $value, string $sign = " "): string
 {
     if (is_bool($value)) {
         $value = json_encode($value);
     }
-    return "  " . $sign . " " . $key . ": " . $value;
+    return "  $sign $key: $value";
 }
 
-function sortByKeys($keys)
+function sortByKeys(array $keys): array
 {
-    $copy = $keys;
-    sort($copy);
-    return $copy;
+    sort($keys);
+    return $keys;
 }
 
 function genDiff(string $filePath1, string $filePath2): string
 {
-    $json1 = getFileContent($filePath1);
-    $json2 = getFileContent($filePath2);
-    $data1 = get_object_vars($json1);
-    $data2 = get_object_vars($json2);
+    $fileExtension1 = pathinfo($filePath1)['extension'];
+    $fileExtension2 = pathinfo($filePath2)['extension'];
+    $fileData1 = getFileContent($filePath1, $fileExtension1);
+    $fileData2 = getFileContent($filePath2, $fileExtension2);
 
-    $keys = array_keys(array_merge($data1, $data2));
+    $keys = array_keys(array_merge($fileData1, $fileData2));
 
     $sortedKeys = sortByKeys($keys);
 
@@ -32,15 +31,15 @@ function genDiff(string $filePath1, string $filePath2): string
     $result[] = "{";
 
     foreach ($sortedKeys as $key) {
-        if (!array_key_exists($key, $data2)) {
-            $result[] = getString($key, $data1[$key], "-");
-        } elseif (!array_key_exists($key, $data1)) {
-            $result[] = getString($key, $data2[$key], "+");
-        } elseif ($data2[$key] === $data1[$key]) {
-            $result[] = getString($key, $data1[$key]);
+        if (!array_key_exists($key, $fileData2)) {
+            $result[] = formatString($key, $fileData1[$key], "-");
+        } elseif (!array_key_exists($key, $fileData1)) {
+            $result[] = formatString($key, $fileData2[$key], "+");
+        } elseif ($fileData2[$key] === $fileData1[$key]) {
+            $result[] = formatString($key, $fileData1[$key]);
         } else {
-            $result[] = getString($key, $data1[$key], "-");
-            $result[] = getString($key, $data2[$key], "+");
+            $result[] = formatString($key, $fileData1[$key], "-");
+            $result[] = formatString($key, $fileData2[$key], "+");
         }
     }
     $result[] = "}";
