@@ -6,8 +6,10 @@
             "Hexlet\\Code\\": "src/"
         },
         "files": [
-            "src/Parser.php",
-            "src/GenDiff.php"
+            "src/Parsers.php",
+            "src/GenDiff.php",
+            "src/GetDifference.php",
+            "src/Render.php"
         ]
     },
     "autoload-dev": {
