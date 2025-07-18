@@ -9,7 +9,10 @@
             "src/Parsers.php",
             "src/GenDiff.php",
             "src/GetDifference.php",
-            "src/Render.php"
+            "src/Render.php",
+            "src/Formatters.php",
+            "src/Formatters/Plain.php",
+            "src/Formatters/Stylish.php"
         ]
     },
     "autoload-dev": {
