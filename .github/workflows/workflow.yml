@@ -9,16 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
+
       - name: Install project
         run: make install
+
       - name: Run linter
         run: make lint
+
       - name: Run tests
-        run: make test
+        run: make test-coverage
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
