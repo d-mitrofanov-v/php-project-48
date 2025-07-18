@@ -12,7 +12,8 @@
             "src/Render.php",
             "src/Formatters.php",
             "src/Formatters/Plain.php",
-            "src/Formatters/Stylish.php"
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Json.php"
         ]
     },
     "autoload-dev": {

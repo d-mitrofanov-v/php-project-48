@@ -33,7 +33,7 @@ $args = Docopt::handle($doc, array('version' => '1.0'));
 
 $args = $args->args;
 
-$diff = genDiff($args['<firstFile>'], $args['<secondFile>']);
+$diff = genDiff($args['<firstFile>'], $args['<secondFile>'], $args['--format']);
 print_r($diff);
 
 
