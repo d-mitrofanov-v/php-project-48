@@ -1,0 +1,17 @@
+parameters:
+  level: 8
+  paths:
+    - code
+
+  excludePaths:
+    - code/vendor
+    - code/tests
+
+  reportUnmatchedIgnoredErrors: false
+
+  ignoreErrors:
+    - '#Variable property access on object#'
+    - '#Anonymous function should have native return type#'
+    - identifier: missingType.iterableValue
+  phpstanFunctionalProgramming:
+    disallowThrow: false

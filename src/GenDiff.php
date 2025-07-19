@@ -1,6 +1,10 @@
 <?php
 
-namespace Hexlet\Code;
+namespace Differ\Differ;
+
+use function Hexlet\Code\getDifference;
+use function Hexlet\Code\getFileContent;
+use function Hexlet\Code\render;
 
 function genDiff(string $filePath1, string $filePath2, string $format = 'stylish'): string
 {
