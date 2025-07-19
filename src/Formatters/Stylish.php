@@ -2,25 +2,23 @@
 
 namespace Hexlet\Code\Formatters;
 
-function formatArrayValue($value, $level): string
+function formatArrayValue(array $value, int $level): string
 {
     $indent = str_repeat('    ', $level + 1);
     $keys = array_keys($value);
-    $values = [];
 
-    foreach ($keys as $key) {
+    $values = array_map(function ($key) use ($value, $indent, $level) {
         if (is_array($value[$key])) {
-            $values[] = "$indent    $key: " . formatArrayValue($value[$key], $level + 1);
-        } else {
-            $values[] = "$indent    $key: $value[$key]";
+            return "$indent    $key: " . formatArrayValue($value[$key], $level + 1);
         }
-    }
+        return "$indent    $key: $value[$key]";
+    }, $keys);
 
     $result = implode(PHP_EOL, $values);
     return "{\n$result\n$indent}";
 }
 
-function formatValue($value, $level): string
+function formatValue(mixed $value, int $level): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -37,7 +35,7 @@ function formatValue($value, $level): string
     return $value;
 }
 
-function renderStylishValues($data, $level = 0): string
+function renderStylishValues(array $data, int $level = 0): string
 {
     $indent = str_repeat('    ', $level);
 
@@ -53,12 +51,10 @@ function renderStylishValues($data, $level = 0): string
             "\n$indent  + {$element['key']}: " . formatValue($element['values'][1], $level)
     ];
 
-    $values = [];
-
-    foreach ($data as $element) {
+    $values = array_map(function ($element) use ($handlers) {
         $handler = $handlers[$element['type']];
-        $values[] = $handler($element);
-    }
+        return $handler($element);
+    }, $data);
 
     return implode(PHP_EOL, $values);
 }

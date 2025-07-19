@@ -4,9 +4,14 @@ namespace Hexlet\Code;
 
 function getSortedKeys(array $keys): array
 {
-    $sorted = $keys;
-    sort($sorted);
-    return $sorted;
+    return array_reduce($keys, function ($acc, $key) {
+        $position = count(array_filter($acc, fn($value) => $value < $key));
+        return [
+            ...array_slice($acc, 0, $position),
+            $key,
+            ...array_slice($acc, $position)
+        ];
+    }, []);
 }
 
 function getDifference(array $fileData1, array $fileData2): array

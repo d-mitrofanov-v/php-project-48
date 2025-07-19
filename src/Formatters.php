@@ -6,12 +6,13 @@ use function Hexlet\Code\Formatters\renderPlain;
 use function Hexlet\Code\Formatters\renderStylish;
 use function Hexlet\Code\Formatters\renderJson;
 
-function getFormatter($data, $format): string
+function getFormatter(array $data, string $format): string|false
 {
     $renderer = match ($format) {
-        'stylish' => fn() => renderStylish($data),
-        'plain' => fn() => renderPlain($data),
-        'json' => fn() => renderJson($data)
+        'stylish' => fn($data) => renderStylish($data),
+        'plain' => fn($data) => renderPlain($data),
+        'json' => fn($data) => renderJson($data),
+        default => fn($data) => ""
     };
 
     return $renderer($data);

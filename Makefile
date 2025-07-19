@@ -3,6 +3,7 @@ install:
 
 lint:
 	composer exec --verbose phpcs -- src tests
+	composer exec --verbose phpstan
 
 test:
 	composer exec --verbose phpunit tests

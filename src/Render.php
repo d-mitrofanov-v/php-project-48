@@ -2,7 +2,7 @@
 
 namespace Hexlet\Code;
 
-function render($data, $format): string
+function render(array $data, string $format): string|false
 {
     return getFormatter($data, $format);
 }

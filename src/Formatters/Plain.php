@@ -2,22 +2,17 @@
 
 namespace Hexlet\Code\Formatters;
 
-function flattenAll($collection): array
+function flattenAll(array $collection): array
 {
-    $result = [];
-
-    foreach ($collection as $value) {
+    return array_reduce($collection, function ($acc, $value) {
         if (is_array($value)) {
-            $result = array_merge($result, flattenAll($value));
-        } else {
-            $result[] = $value;
+            return array_merge($acc, flattenAll($value));
         }
-    }
-
-    return $result;
+        return array_merge($acc, [$value]);
+    }, []);
 }
 
-function getPlainValue($value): string
+function getPlainValue(mixed $value): float|int|string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -38,7 +33,7 @@ function getPlainValue($value): string
     return "'$value'";
 }
 
-function getPropertyName($name, $parent)
+function getPropertyName(string $name, ?string $parent): string
 {
     if (is_null($parent)) {
         return $name;
@@ -46,7 +41,7 @@ function getPropertyName($name, $parent)
     return "$parent.$name";
 }
 
-function renderPlainValues($data, $parent = null): array
+function renderPlainValues(array $data, ?string $parent = null): array
 {
     $handlers = [
         'nested' => function ($element) use ($parent) {
@@ -70,21 +65,19 @@ function renderPlainValues($data, $parent = null): array
         }
     ];
 
-    $values = [];
-
-    foreach ($data as $element) {
-        if ($element['type'] == 'unchanged') {
-            continue;
+    $values = array_reduce($data, function ($acc, $element) use ($handlers) {
+        if ($element['type'] === 'unchanged') {
+            return $acc;
         }
         $handler = $handlers[$element['type']];
-        $values[] = $handler($element);
-    }
+        return [...$acc, $handler($element)];
+    }, []);
 
     return flattenAll($values);
 }
 
 
-function renderPlain($data): string
+function renderPlain(array $data): string
 {
     $result = renderPlainValues($data);
     return implode(PHP_EOL, $result);
